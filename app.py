@@ -47,6 +47,7 @@ def index():
                 files = [f for f in listdir(bots_path) if isfile(join(bots_path, f)) and len(f) > 2 and f[-3:] == '.js']
                 # Start bots
                 print 'Starting bots...'
+                print files
                 if len(files) > 0:
                     bash_command = 'screen -list'
                     process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
