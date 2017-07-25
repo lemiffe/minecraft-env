@@ -15,6 +15,7 @@ import getopt
 import subprocess
 from os import listdir
 from os.path import isfile, join
+import hashlib
 
 # Get the path to this script
 abspath = os.path.abspath(__file__)
@@ -33,6 +34,9 @@ def index():
         content = request.json
         if content is not None:
             if content["ref"] == 'refs/heads/master':
+                # Get MD5 checksum of current package.json
+                package_json_path = bots_path + '/package.json'
+                curr_npm_hash = hashlib.md5(open(package_json_path, 'rb').read()).hexdigest()
                 # Pull latest version (master)
                 print 'Fetching from Git...'
                 bash_command = 'git fetch --all'
@@ -47,10 +51,12 @@ def index():
                 process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
                 output, error = process.communicate()
                 # NPM install
-                print 'Running NPM install...'
-                bash_command = 'npm install'
-                process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
-                output, error = process.communicate()
+                new_npm_hash = hashlib.md5(open(package_json_path, 'rb').read()).hexdigest()
+                if curr_npm_hash != new_npm_hash:
+                    print 'Running NPM install...'
+                    bash_command = 'npm install'
+                    process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
+                    output, error = process.communicate()
                 # Get JS files in the bots directory
                 files = [f for f in listdir(bots_path) if isfile(join(bots_path, f)) and len(f) > 2 and f[-3:] == '.js']
                 # Start bots
