@@ -16,7 +16,7 @@
 - Requires Python 2.7+
 - Install pip (apt-get install python-pip)
 - Install flask + requirements (pip install -r requirements.txt)
-- Run in a screen, e.g. screen -X -S minecraft-env quit && screen -S minecraft-env -L -d -m python ./app.py
+- Run in a screen, e.g. screen -X -S minecraft-env quit && screen -S minecraft-env -d -m python ./app.py
 
 ## Usage
 
