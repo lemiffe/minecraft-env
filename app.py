@@ -13,6 +13,8 @@ import logging
 from random import randint
 import getopt
 import subprocess
+from os import listdir
+from os.path import isfile, join
 
 # Get the path to this script
 abspath = os.path.abspath(__file__)
