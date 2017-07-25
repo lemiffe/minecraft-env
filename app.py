@@ -34,8 +34,16 @@ def index():
         if content is not None:
             if content["ref"] == 'refs/heads/master':
                 # Pull latest version (master)
-                print 'Pulling latest version...'
-                bash_command = 'git fetch --all && git reset --hard origin/master && git pull origin master'
+                print 'Fetching from Git...'
+                bash_command = 'git fetch --all'
+                process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
+                output, error = process.communicate()
+                print 'Resetting --hard to master...'
+                bash_command = 'git reset --hard origin/master'
+                process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
+                output, error = process.communicate()
+                print 'Pulling from git...'
+                bash_command = 'git pull origin master'
                 process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
                 output, error = process.communicate()
                 # NPM install
