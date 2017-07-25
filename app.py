@@ -56,6 +56,9 @@ def index():
                         if bot_name not in screens:
                             print ' - Initialising ' + bot_name + ' in a screen'
                             bash_command = 'screen -X -S ' + bot_name + ' quit && screen -S ' + bot_name + ' -d -m nodemon ' + f
+                            process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
+                            output, error = process.communicate()
+                            print output
                 return "Deployed"
         return "Invalid request"
     else:
