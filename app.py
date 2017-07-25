@@ -18,9 +18,8 @@ import subprocess
 abspath = os.path.abspath(__file__)
 curr_dir = os.path.dirname(abspath)
 
-# Get the minecraft-bots path + chdir into it
+# Get the minecraft-bots path
 bots_path = os.path.join(curr_dir, '..', 'minecraft-bots')
-os.chdir(bots_path)
 
 app = Flask(__name__, static_url_path='')
 CORS(app)
@@ -28,6 +27,7 @@ CORS(app)
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
+        os.chdir(bots_path)
         content = request.json
         if content is not None:
             if content["ref"] == 'refs/heads/master':
