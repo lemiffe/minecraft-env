@@ -35,8 +35,6 @@ def index():
         content = request.json
         if content is not None:
             if content["ref"] == "refs/heads/master":
-                #answer = json.dumps(content)
-                #print answer
                 os.chdir(os.path.join(dname, '..', 'minecraft-bots'))
                 bash_command = "git pull origin master"
                 process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
@@ -50,3 +48,4 @@ if __name__ == "__main__":
     app.debug = True
     port = 5000
     app.run(host='0.0.0.0', port=port)
+
